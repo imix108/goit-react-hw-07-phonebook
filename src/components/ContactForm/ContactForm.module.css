@@ -1,0 +1,37 @@
+.form {
+ 
+  padding: 20px;
+  border: 1px solid #adadad;
+  border-radius: 5px;
+  width: 300px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.input {
+  width: 200px;
+  padding: 8px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.submitBtn {
+  display: block;
+  background-color:#3844BC;
+  color: black;
+  font-weight: bold;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submitBtn:hover {
+  background-color:#2f9a14;
+} 
