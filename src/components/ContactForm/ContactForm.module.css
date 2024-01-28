@@ -23,7 +23,7 @@
 
 .submitBtn {
   display: block;
-  background-color:#3844BC;
+  background-color: lightblue;
   color: black;
   font-weight: bold;
   padding: 10px 15px;
@@ -33,5 +33,5 @@
 }
 
 .submitBtn:hover {
-  background-color:#2f9a14;
+  background-color: lightgreen;
 } 
