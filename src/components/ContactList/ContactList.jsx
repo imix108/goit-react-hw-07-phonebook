@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import css from './ContactList.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { remove } from '../../redux/sliceContact';
+import { delContactsThunk } from '../../redux/ContactsThunk';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts.items);
   const filtered = useSelector(state => state.filter);
-  const contacts = useSelector(state => state.contacts);
 
   const filteredContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(filtered.toLowerCase())
@@ -21,7 +21,7 @@ export const ContactList = () => {
         className={css.deleteBtn}
         type="button"
         onClick={() => {
-          dispatch(remove(cont.id));
+          dispatch(delContactsThunk(cont.id));
         }}
       >
         Delete

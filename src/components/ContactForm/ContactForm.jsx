@@ -1,13 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import css from './ContactForm.module.css';
+import { addContactsThunk, getContactsThunk } from '../../redux/ContactsThunk';
 import { useDispatch, useSelector } from 'react-redux';
-import { add } from '../../redux/sliceContact';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  
+
+  useEffect(() => {
+    dispatch(getContactsThunk());
+  }, [dispatch]);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -21,22 +26,25 @@ export const ContactForm = () => {
 
   const contacts = useSelector(state => state.contacts);
 
+  const handleFormSubmit = e => {
+    e.preventDefault();
+    const contact = {
+      name: name,
+      phone: number,
+    };
+
+    if (Array.isArray(contacts) && contacts.some(value => value.name.toLowerCase() === name.toLowerCase())) {
+      toast(`${name} is already in contacts`);
+    } else {
+      dispatch(addContactsThunk(contact));
+      reset();
+    }
+  };
+
   return (
-    <form
+     <form
       className={css.form}
-      onSubmit={e => {
-        e.preventDefault();
-        if (
-          contacts.some(
-            value => value.name.toLocaleLowerCase() === name.toLocaleLowerCase()
-          )
-        ) {
-          alert(`${name} is already in contacts`);
-        } else {
-          dispatch(add({ name, number }));
-          reset(); 
-        }
-      }}
+      onSubmit={handleFormSubmit}
     >
       <div>
         <label className={css.label}>
@@ -67,6 +75,13 @@ export const ContactForm = () => {
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
           placeholder="987-65-43"
+        />
+          <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          pauseOnHover
+          theme="dark"
         />
         <button className={css.submitBtn} type="submit">
           Add contact
