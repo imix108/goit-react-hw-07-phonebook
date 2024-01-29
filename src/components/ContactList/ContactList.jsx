@@ -15,7 +15,7 @@ export const ContactList = () => {
   return filteredContacts.map(cont => (
     <p key={cont.id} className={css.contactItem}>
       <span className={css.contactText}>
-        {cont.name}: {cont.number}
+        {cont.name}: {cont.phone}
       </span>
       <button
         className={css.deleteBtn}

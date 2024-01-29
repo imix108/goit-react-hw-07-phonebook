@@ -11,7 +11,7 @@ export const ContactForm = () => {
   const [number, setNumber] = useState('');
 
   useEffect(() => {
-    dispatch(getContactsThunk());
+    dispatch(getContactsThunk())
   }, [dispatch]);
 
   const handleChange = e => {
@@ -24,28 +24,37 @@ export const ContactForm = () => {
     setNumber('');
   };
 
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useSelector(state => state.contacts.items);
 
-  const handleFormSubmit = e => {
+  const handleFormSubmit = async e => {
     e.preventDefault();
+   
+    const lowerCaseName = name.toLowerCase();
+    
+    const isNameUnique = !contacts.some(contact => contact.name.toLowerCase() === lowerCaseName);
+
+    if (!isNameUnique) {
+      
+      toast.error(`${name} is already in contacts`);
+      return;
+    }
+
     const contact = {
       name: name,
       phone: number,
     };
-
-    if (Array.isArray(contacts) && contacts.some(value => value.name.toLowerCase() === name.toLowerCase())) {
-      toast(`${name} is already in contacts`);
-    } else {
+    
+    try {
       dispatch(addContactsThunk(contact));
       reset();
-    }
+      toast.success('Contact added');
+    } catch (error) {
+      toast.error('Failed to add contact');
+    } 
   };
 
   return (
-     <form
-      className={css.form}
-      onSubmit={handleFormSubmit}
-    >
+    <form className={css.form} onSubmit={handleFormSubmit}>
       <div>
         <label className={css.label}>
           <span>Name</span>
@@ -76,17 +85,24 @@ export const ContactForm = () => {
           required
           placeholder="987-65-43"
         />
-          <ToastContainer
-          position="top-center"
-          autoClose={3000}
-          hideProgressBar={false}
-          pauseOnHover
-          theme="dark"
-        />
+       
         <button className={css.submitBtn} type="submit">
           Add contact
         </button>
       </div>
+   <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={true}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="colored"
+
+/>
     </form>
   );
 };

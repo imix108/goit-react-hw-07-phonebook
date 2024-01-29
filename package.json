@@ -12,6 +12,7 @@
     "notifly": "^0.0.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-loader-spinner": "^6.1.6",
     "react-redux": "^9.1.0",
     "react-scripts": "5.0.1",
     "react-toastify": "^10.0.4",
